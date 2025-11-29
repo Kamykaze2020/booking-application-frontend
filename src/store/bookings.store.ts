@@ -20,6 +20,8 @@ type BookingsState = {
 
   approve: (id: number) => Promise<void>;
   reject: (id: number) => Promise<void>;
+
+  upsert: (b: Booking) => void;
 };
 
 function toMessage(e: any) {
@@ -92,4 +94,12 @@ export const useBookingsStore = create<BookingsState>((set, get) => ({
       set({ items: prev, error: toMessage(e) });
     }
   },
+  upsert: (b) =>
+    set((s) => {
+      const items = s.items.slice();
+      const idx = items.findIndex((x) => x.id === b.id);
+      if (idx >= 0) items[idx] = b;
+      else items.unshift(b);
+      return { items };
+    }),
 }));

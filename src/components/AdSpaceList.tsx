@@ -17,6 +17,8 @@ import {
 import { AdSpaceFilters } from "./AdSpaceFilters";
 import { useAdSpacesStore } from "../store/adSpaces.store";
 import type { AdSpace } from "../types/adSpace";
+import { BookingRequestDialog } from "./BookingRequestDialog";
+import { ConfirmDeleteDialog } from "./ConfirmDeleteDialog";
 import { EditAdSpaceDialog } from "./EditAdSpaceDialog";
 import { CreateAdSpaceDialog } from "../features/adspaces/CreateAdSpaceDialog";
 
@@ -189,6 +191,13 @@ export function AdSpaceList() {
         ))}
       </Grid>
 
+      {/* Dialogs */}
+      <BookingRequestDialog
+        open={bookSpace != null}
+        space={bookSpace}
+        onClose={() => setBookSpace(null)}
+      />
+
       <EditAdSpaceDialog
         open={editSpace != null}
         space={editSpace}
@@ -196,6 +205,17 @@ export function AdSpaceList() {
         onSave={(updated) => {
           upsertLocal(updated);
           setEditSpace(null);
+        }}
+      />
+
+      <ConfirmDeleteDialog
+        open={deleteSpace != null}
+        title="Delete Ad Space?"
+        description="This is a UI-only delete for now (no backend delete endpoint)."
+        onCancel={() => setDeleteSpace(null)}
+        onConfirm={() => {
+          if (deleteSpace) deleteLocal(deleteSpace.id);
+          setDeleteSpace(null);
         }}
       />
 
