@@ -3,6 +3,12 @@
 React + TypeScript frontend for the **Ad Space Booking System**.
 Provides UI for managing **Ad Spaces** and **Booking Requests**, and communicates with the Spring Boot backend via REST APIs.
 
+<img width="1920" height="980" alt="2" src="https://github.com/user-attachments/assets/68de1eba-9426-4ed1-b2f9-6ef74b771f50" />
+
+
+<img width="1920" height="986" alt="3" src="https://github.com/user-attachments/assets/acf06a1d-8123-48e6-a02d-fec01194a860" />
+
+
 ---
 
 ## Tech Stack
