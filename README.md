@@ -1,46 +1,119 @@
-# Getting Started with Create React App
+# Booking Application Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React + TypeScript frontend for the **Ad Space Booking System**.
+Provides UI for managing **Ad Spaces** and **Booking Requests**, and communicates with the Spring Boot backend via REST APIs.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Tech Stack
 
-### `npm start`
+- React
+- TypeScript
+- Node.js / npm
+- Project API client: `src/api`
+- State management: `src/store` (project-specific)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Prerequisites
 
-### `npm test`
+- Node.js 18+ (recommended)
+- npm 9+
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Install dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Configuration
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The frontend expects the backend base URL via an environment variable.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+I've added a proxy "proxy": "http://localhost:8080" in the package.json so it should work by default locally.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+If using env. Example `.env`:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```env
+REACT_APP_API_BASE_URL=http://localhost:8080
+```
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Run locally
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Start the dev server:
+
+```bash
+npm start
+```
+
+Open:
+
+- `http://localhost:3000`
+
+---
+
+## Build
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+---
+
+## Tests
+
+Run unit tests:
+
+```bash
+npm test
+```
+
+---
+
+## Project Structure (high level)
+
+Common folders you’ll find in this project:
+
+```
+src/
+  api/            # HTTP client + backend API modules
+  components/     # reusable UI components
+  features/       # feature modules (e.g., ad spaces / bookings)
+  store/          # state management
+  types/          # domain types (DTO-like interfaces)
+```
+
+---
+
+## Backend dependency
+
+This UI requires the backend to be running (default):
+
+- Backend: `http://localhost:8080`
+- Frontend: `http://localhost:3000`
+
+If the backend runs on another port/host, update `REACT_APP_API_BASE_URL`.
+
+---
+
+## Notes for reviewers
+
+- The UI uses a dedicated API layer and typed DTO-like models (`src/types`)
+- Key flows: ad space CRUD, booking request create + approve/reject
+- Error states from the backend are surfaced in the UI where applicable
+
+---
+
+## License
+
+Provided for interview evaluation purposes.
