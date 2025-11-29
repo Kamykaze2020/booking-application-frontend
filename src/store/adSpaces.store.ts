@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import type { AdSpace, AdSpaceType } from "../types/adSpace";
 import { fetchAdSpaces } from "../api/adSpaces.api";
+import { deleteAdSpace } from "../api/adSpaces.api";
 
 type SortKey = "name" | "city" | "pricePerDay";
 type SortDir = "asc" | "desc";
@@ -24,6 +25,7 @@ type AdSpacesState = {
   // UI-only actions (until backend has CRUD endpoints)
   deleteLocal: (id: number) => void;
   upsertLocal: (space: AdSpace) => void;
+  deleteRemote: (id: number) => Promise<void>;
 
   // Derived helpers
   getVisible: () => AdSpace[];
@@ -77,6 +79,25 @@ export const useAdSpacesStore = create<AdSpacesState>((set, get) => ({
   },
 
   deleteLocal: (id) => set({ items: get().items.filter((x) => x.id !== id) }),
+
+  deleteRemote: async (id: number) => {
+    set({ loading: true, error: null });
+    try {
+      await deleteAdSpace(id);
+      set((s) => ({
+        items: s.items.filter((x) => x.id !== id),
+        loading: false,
+      }));
+    } catch (e: any) {
+      // adjust to your error shape
+      const msg =
+        e?.response?.data?.message ??
+        e?.response?.data?.error ??
+        e?.message ??
+        "Delete failed";
+      set({ loading: false, error: msg });
+    }
+  },
 
   upsertLocal: (space) => {
     const items = get().items.slice();

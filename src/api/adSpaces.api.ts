@@ -27,3 +27,7 @@ export async function createAdSpace(payload: CreateAdSpaceRequest) {
   const res = await http.post<AdSpace>("/api/v1/ad-spaces", payload);
   return res.data;
 }
+
+export async function deleteAdSpace(id: number): Promise<void> {
+  await http.delete(`/api/v1/ad-spaces/${id}`);
+}

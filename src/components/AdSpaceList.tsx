@@ -44,8 +44,9 @@ export function AdSpaceList() {
   const filterCity = useAdSpacesStore((s) => s.filterCity);
 
   // local UI actions
-  const deleteLocal = useAdSpacesStore((s) => s.deleteLocal);
+  // const deleteLocal = useAdSpacesStore((s) => s.deleteLocal);
   const upsertLocal = useAdSpacesStore((s) => s.upsertLocal);
+  const deleteRemote = useAdSpacesStore((s) => s.deleteRemote);
 
   // dialog state
   const [bookSpace, setBookSpace] = React.useState<AdSpace | null>(null);
@@ -208,13 +209,27 @@ export function AdSpaceList() {
         }}
       />
 
+      {/*
+         <ConfirmDeleteDialog
+           open={deleteSpace != null}
+           title="Delete Ad Space?"
+           description="This is a UI-only delete for now (no backend delete endpoint)."
+           onCancel={() => setDeleteSpace(null)}
+           onConfirm={() => {
+             if (deleteSpace) deleteLocal(deleteSpace.id);
+             setDeleteSpace(null);
+           }}
+         />
+         */}
+
       <ConfirmDeleteDialog
         open={deleteSpace != null}
         title="Delete Ad Space?"
-        description="This is a UI-only delete for now (no backend delete endpoint)."
+        description="This will permanently delete the ad space. If it has booking requests, delete will be blocked."
         onCancel={() => setDeleteSpace(null)}
-        onConfirm={() => {
-          if (deleteSpace) deleteLocal(deleteSpace.id);
+        onConfirm={async () => {
+          if (!deleteSpace) return;
+          await deleteRemote(deleteSpace.id);
           setDeleteSpace(null);
         }}
       />
